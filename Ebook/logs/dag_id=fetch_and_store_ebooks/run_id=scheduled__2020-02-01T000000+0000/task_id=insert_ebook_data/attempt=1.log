@@ -1,0 +1,279 @@
+[2025-01-26T09:55:56.741+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T09:55:57.095+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.insert_ebook_data scheduled__2020-02-01T00:00:00+00:00 [queued]>
+[2025-01-26T09:55:57.268+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.insert_ebook_data scheduled__2020-02-01T00:00:00+00:00 [queued]>
+[2025-01-26T09:55:57.293+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T09:55:58.948+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): insert_ebook_data> on 2020-02-01 00:00:00+00:00
+[2025-01-26T09:55:59.056+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5333) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T09:55:59.099+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'insert_ebook_data', 'scheduled__2020-02-01T00:00:00+00:00', '--job-id', '1246', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpfsg1t_wv']
+[2025-01-26T09:55:59.164+0000] {standard_task_runner.py:105} INFO - Job 1246: Subtask insert_ebook_data
+[2025-01-26T09:55:59.145+0000] {standard_task_runner.py:72} INFO - Started process 5378 to run task
+[2025-01-26T09:56:00.809+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.insert_ebook_data scheduled__2020-02-01T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T09:56:02.528+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='insert_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2020-02-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-02-01T00:00:00+00:00'
+[2025-01-26T09:56:03.011+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T09:56:03.045+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T09:56:03.180+0000] {logging_mixin.py:190} INFO - Current task name:insert_ebook_data state:running start_date:2025-01-26 09:55:57.103031+00:00
+[2025-01-26T09:56:03.192+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T09:56:03.295+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T09:56:03.914+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T09:56:05.256+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Kata Hati', 'by Bernard Batubara', 'https://ebook.twointomedia.com/kata-hati-bernard-batubara/')
+[2025-01-26T09:56:05.417+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:06.123+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Insya Allah, Sah', 'by Achi TM', 'https://ebook.twointomedia.com/insya-allah-sah-achi-tm/')
+[2025-01-26T09:56:06.259+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:07.188+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('I Love You Dearly', 'by Ria N. Badaria', 'https://ebook.twointomedia.com/i-love-you-dearly-ria-n-badaria/')
+[2025-01-26T09:56:07.268+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:08.332+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Love Latte', 'by Phoebe', 'https://ebook.twointomedia.com/love-latte-phoebe/')
+[2025-01-26T09:56:08.644+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:14.306+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Memutar Ulang Waktu', 'by Gabriella Chandra', 'https://ebook.twointomedia.com/memutar-ulang-waktu-gabriella-chandra/')
+[2025-01-26T09:56:14.512+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:15.599+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Who Am I?', 'by Maharani Tasya', 'https://ebook.twointomedia.com/who-am-i-maharani-tasya/')
+[2025-01-26T09:56:15.699+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:16.366+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Trapped by You', 'by Siti Nur Atika', 'https://ebook.twointomedia.com/trapped-by-you-siti-nur-atika/')
+[2025-01-26T09:56:16.512+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:17.322+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Jika Aku Milikmu', 'by Bernard Batubara', 'https://ebook.twointomedia.com/jika-aku-milikmu-bernard-batubara/')
+[2025-01-26T09:56:17.421+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:18.579+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('5 cm', 'by Donny Dhirgantoro', 'https://ebook.twointomedia.com/5-cm-donny-dhirgantoro/')
+[2025-01-26T09:56:18.713+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:19.534+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Cinta Masa Lalu', 'by Nima Mumtaz', 'https://ebook.twointomedia.com/cinta-masa-lalu-nima-mumtaz/')
+[2025-01-26T09:56:19.589+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:20.692+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('US', 'by Moonkong', 'https://ebook.twointomedia.com/us-moonkong/')
+[2025-01-26T09:56:20.767+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:21.463+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Love Fucker', 'by Enniyy', 'https://ebook.twointomedia.com/love-fucker-enniyy/')
+[2025-01-26T09:56:21.543+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:22.255+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Bianca', 'by Zenny Arieffka', 'https://ebook.twointomedia.com/bianca-zenny-arieffka/')
+[2025-01-26T09:56:22.570+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:23.320+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Hello Shitty', 'by Liara Audrina', 'https://ebook.twointomedia.com/hello-shitty-liara-audrina/')
+[2025-01-26T09:56:23.482+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:24.343+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Love Trip', 'by Putu Kurniawati', 'https://ebook.twointomedia.com/love-trip-putu-kurniawati/')
+[2025-01-26T09:56:24.581+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:25.836+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Ketika Elang Mencintai Dara', 'by Putu Kurniawati', 'https://ebook.twointomedia.com/ketika-elang-mencintai-dara-putu-kurniawati/')
+[2025-01-26T09:56:25.923+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:26.796+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Langit Gemini', 'by Sienna Bachir', 'https://ebook.twointomedia.com/langit-gemini-sienna-bachir/')
+[2025-01-26T09:56:26.958+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:28.006+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Cute Love', 'by Ainun Nufus', 'https://ebook.twointomedia.com/cute-love-ainun-nufus/')
+[2025-01-26T09:56:28.551+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:29.921+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Dia, Tanpa Aku', 'by Esti Kinasih', 'https://ebook.twointomedia.com/dia-tanpa-aku-esti-kinasih/')
+[2025-01-26T09:56:30.025+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:31.169+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('147 Letters', 'by Achi TM', 'https://ebook.twointomedia.com/147-letters-achi-tm/')
+[2025-01-26T09:56:31.411+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:32.811+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Pasangan Labil', 'by Paramita Swasti Buwana', 'https://ebook.twointomedia.com/pasangan-labil-paramita-swasti-buwana/')
+[2025-01-26T09:56:32.954+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:33.458+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('When I See Your Smile', 'by Netty Virgiantini', 'https://ebook.twointomedia.com/when-i-see-your-smile-netty-virgiantini/')
+[2025-01-26T09:56:33.547+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:34.276+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Love Catcher', 'by Riawani Elyta', 'https://ebook.twointomedia.com/love-catcher-riawani-elyta/')
+[2025-01-26T09:56:34.324+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:35.355+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Gue Jomblo Mas Buloh ?!', 'by Dije, Mitha', 'https://ebook.twointomedia.com/gue-jomblo-mas-buloh-dije-mitha/')
+[2025-01-26T09:56:35.434+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:35.932+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Being a Polyamorist', 'by Adiatamasa', 'https://ebook.twointomedia.com/being-a-polyamorist-adiatamasa/')
+[2025-01-26T09:56:36.042+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:36.589+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Forever Yours Regardless', 'by Pichidichi', 'https://ebook.twointomedia.com/forever-yours-regardless-pichidichi/')
+[2025-01-26T09:56:36.648+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:37.261+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Finally Mr. Right', 'by Shita Hapsari', 'https://ebook.twointomedia.com/finally-mr-right-shita-hapsari/')
+[2025-01-26T09:56:37.362+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:39.157+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('See You Again', 'by Septiana Villia', 'https://ebook.twointomedia.com/see-you-again-septiana-villia/')
+[2025-01-26T09:56:39.399+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:40.501+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Kirana Cinta', 'by Anjar Anastasia', 'https://ebook.twointomedia.com/kirana-cinta-anjar-anastasia/')
+[2025-01-26T09:56:40.604+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:41.080+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Elegi Patah Hati', 'by Veradsh', 'https://ebook.twointomedia.com/elegi-patah-hati-veradsh/')
+[2025-01-26T09:56:41.140+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:41.600+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Be My Sweet Darling', 'by Queen Soraya', 'https://ebook.twointomedia.com/be-my-sweet-darling-queen-soraya/')
+[2025-01-26T09:56:41.647+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:42.132+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Makhluk Tuhan Paling Katrok!', 'by Netty Virgiantini', 'https://ebook.twointomedia.com/makhluk-tuhan-paling-katrok-netty-virgiantini/')
+[2025-01-26T09:56:42.164+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:42.616+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Chandelle', 'by Riawani Elyta', 'https://ebook.twointomedia.com/chandelle-riawani-elyta/')
+[2025-01-26T09:56:42.691+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:43.416+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Telaga Rindu', 'by Netty Virgiantini', 'https://ebook.twointomedia.com/telaga-rindu-netty-virgiantini/')
+[2025-01-26T09:56:43.495+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:44.220+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Air Mata Mila', 'by Sabila Septiani', 'https://ebook.twointomedia.com/air-mata-mila-sabila-septiani/')
+[2025-01-26T09:56:44.280+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:45.351+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Tiga Sudut', 'by Aqiladyna', 'https://ebook.twointomedia.com/tiga-sudut-aqiladyna/')
+[2025-01-26T09:56:45.398+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:45.792+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Mars & Bumi', 'by Nika Rakasiwi', 'https://ebook.twointomedia.com/mars-bumi-nika-rakasiwi/')
+[2025-01-26T09:56:45.831+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:46.248+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('First Time in Beijing', 'by Riawani Elyta', 'https://ebook.twointomedia.com/first-time-in-beijing-riawani-elyta/')
+[2025-01-26T09:56:46.344+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:47.152+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Not a Dream Wedding', 'by Indah Muladiatin', 'https://ebook.twointomedia.com/not-a-dream-wedding-indah-muladiatin/')
+[2025-01-26T09:56:47.416+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:48.232+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Ardhan', 'by Valencia Anggana', 'https://ebook.twointomedia.com/ardhan-valencia-anggana/')
+[2025-01-26T09:56:48.277+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:48.830+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Kotak Pelangi', 'by Dyan Nuranindya', 'https://ebook.twointomedia.com/kotak-pelangi-dyan-nuranindya/')
+[2025-01-26T09:56:48.878+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:49.415+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Remember You', 'by Dania Cutelfishy', 'https://ebook.twointomedia.com/remember-you-dania-cutelfishy/')
+[2025-01-26T09:56:49.461+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:49.746+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Semua tentang Kamu', 'by Ari Keling', 'https://ebook.twointomedia.com/semua-tentang-kamu-ari-keling/')
+[2025-01-26T09:56:49.763+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:50.342+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Ways to Love', 'by Ulianne', 'https://ebook.twointomedia.com/ways-to-love-ulianne/')
+[2025-01-26T09:56:50.377+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:50.942+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Athena: Eureka!', 'by Erlin Natawiria', 'https://ebook.twointomedia.com/athena-eureka-erlin-natawiria/')
+[2025-01-26T09:56:50.976+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:51.422+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Neighbours Slave', 'by Ervina Dyah Pratikaningrum', 'https://ebook.twointomedia.com/neighbours-slave-ervina-dyah-pratikaningrum/')
+[2025-01-26T09:56:51.450+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:52.041+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Mendamba', 'by Aditia Yudis', 'https://ebook.twointomedia.com/mendamba-aditia-yudis/')
+[2025-01-26T09:56:52.086+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:52.482+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Noda Tak Kasatmata', 'by Agnes Jessica', 'https://ebook.twointomedia.com/noda-tak-kasatmata-agnes-jessica/')
+[2025-01-26T09:56:52.519+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:53.056+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('I Wuf U', 'by Wulanfadi', 'https://ebook.twointomedia.com/i-wuf-u-wulanfadi/')
+[2025-01-26T09:56:53.111+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:53.693+0000] {sql.py:553} INFO - Running statement: 
+    INSERT INTO ebooks (judul, penulis, link)
+    VALUES (%s, %s, %s)
+    , parameters: ('Matt & Mou', 'by Wulanfadi', 'https://ebook.twointomedia.com/matt-mou-wulanfadi/')
+[2025-01-26T09:56:53.727+0000] {sql.py:562} INFO - Rows affected: 1
+[2025-01-26T09:56:53.739+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T09:56:54.039+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T09:56:54.093+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=insert_ebook_data, run_id=scheduled__2020-02-01T00:00:00+00:00, execution_date=20200201T000000, start_date=20250126T095557, end_date=20250126T095654
+[2025-01-26T09:56:55.666+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T09:56:55.682+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T09:56:55.697+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 09:53:20.981540+00:00
+[2025-01-26T09:56:55.702+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T09:56:56.053+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T09:56:56.859+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T09:56:57.052+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

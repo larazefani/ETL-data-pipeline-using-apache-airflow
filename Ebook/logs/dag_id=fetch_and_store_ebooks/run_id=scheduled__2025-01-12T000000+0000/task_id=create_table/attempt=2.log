@@ -1,0 +1,677 @@
+[2025-01-25T17:09:16.061+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-25T17:09:16.195+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-25T17:09:16.260+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-25T17:09:16.278+0000] {taskinstance.py:2866} INFO - Starting attempt 2 of 2
+[2025-01-25T17:09:16.390+0000] {taskinstance.py:2889} INFO - Executing <Task(PostgresOperator): create_table> on 2025-01-12 00:00:00+00:00
+[2025-01-25T17:09:16.427+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3893) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-25T17:09:16.437+0000] {standard_task_runner.py:72} INFO - Started process 3910 to run task
+[2025-01-25T17:09:16.452+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'create_table', 'scheduled__2025-01-12T00:00:00+00:00', '--job-id', '475', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpmfp37dvo']
+[2025-01-25T17:09:16.457+0000] {standard_task_runner.py:105} INFO - Job 475: Subtask create_table
+[2025-01-25T17:09:17.506+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [running]> on host 50ab235b552a
+[2025-01-25T17:09:18.089+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='create_table' AIRFLOW_CTX_EXECUTION_DATE='2025-01-12T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-12T00:00:00+00:00'
+[2025-01-25T17:09:18.093+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-25T17:09:18.095+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-25T17:09:18.097+0000] {logging_mixin.py:190} INFO - Current task name:create_table state:running start_date:2025-01-25 17:09:16.200457+00:00
+[2025-01-25T17:09:18.098+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-25T17:09:18.100+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-25T17:09:18.103+0000] {sql.py:278} INFO - Executing: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    
+[2025-01-25T17:09:18.152+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-25T17:09:18.232+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-25T17:09:18.247+0000] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 494, in run
+    with self._create_autocommit_connection(autocommit) as conn:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 618, in _create_autocommit_connection
+    with closing(self.get_conn()) as conn:
+                 ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/postgres/hooks/postgres.py", line 189, in get_conn
+    self.conn = psycopg2.connect(**conn_args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+[2025-01-25T17:09:18.343+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-01-25T17:09:18.345+0000] {logging_mixin.py:190} INFO - Task start:2025-01-25 17:09:16.200457+00:00 end:2025-01-25 17:09:18.341255+00:00 duration:2.140798
+[2025-01-25T17:09:18.349+0000] {logging_mixin.py:190} INFO - Task:<Task(PostgresOperator): create_table> dag:<DAG: fetch_and_store_ebooks> dagrun:<DagRun fetch_and_store_ebooks @ 2025-01-12 00:00:00+00:00: scheduled__2025-01-12T00:00:00+00:00, state:running, queued_at: 2025-01-25 17:02:07.885961+00:00. externally triggered: False>
+[2025-01-25T17:09:18.352+0000] {logging_mixin.py:190} INFO - Failure caused by connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+[2025-01-25T17:09:18.354+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=fetch_and_store_ebooks, task_id=create_table, run_id=scheduled__2025-01-12T00:00:00+00:00, execution_date=20250112T000000, start_date=20250125T170916, end_date=20250125T170918
+[2025-01-25T17:09:18.419+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-25T17:09:18.426+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 475 for task create_table (connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+; 3910)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3159, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3183, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 494, in run
+    with self._create_autocommit_connection(autocommit) as conn:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 618, in _create_autocommit_connection
+    with closing(self.get_conn()) as conn:
+                 ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/postgres/hooks/postgres.py", line 189, in get_conn
+    self.conn = psycopg2.connect(**conn_args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+[2025-01-25T17:09:18.549+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-01-25T17:09:18.632+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T06:40:41.630+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T06:40:41.821+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-26T06:40:41.896+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-26T06:40:41.899+0000] {taskinstance.py:2866} INFO - Starting attempt 2 of 2
+[2025-01-26T06:40:43.428+0000] {taskinstance.py:2889} INFO - Executing <Task(PostgresOperator): create_table> on 2025-01-12 00:00:00+00:00
+[2025-01-26T06:40:43.569+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=623) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T06:40:43.568+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'create_table', 'scheduled__2025-01-12T00:00:00+00:00', '--job-id', '585', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmptguj0igw']
+[2025-01-26T06:40:43.596+0000] {standard_task_runner.py:105} INFO - Job 585: Subtask create_table
+[2025-01-26T06:40:43.589+0000] {standard_task_runner.py:72} INFO - Started process 658 to run task
+[2025-01-26T06:40:44.301+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T06:40:45.360+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='create_table' AIRFLOW_CTX_EXECUTION_DATE='2025-01-12T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-12T00:00:00+00:00'
+[2025-01-26T06:40:45.381+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T06:40:45.403+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T06:40:45.405+0000] {logging_mixin.py:190} INFO - Current task name:create_table state:running start_date:2025-01-26 06:40:41.835143+00:00
+[2025-01-26T06:40:45.409+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T06:40:45.412+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T06:40:45.417+0000] {sql.py:278} INFO - Executing: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    
+[2025-01-26T06:40:45.485+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T06:40:45.550+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T06:40:45.920+0000] {sql.py:553} INFO - Running statement: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    , parameters: None
+[2025-01-26T06:40:45.939+0000] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.InsufficientPrivilege: permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+
+[2025-01-26T06:40:46.041+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-01-26T06:40:46.048+0000] {logging_mixin.py:190} INFO - Task start:2025-01-26 06:40:41.835143+00:00 end:2025-01-26 06:40:46.039105+00:00 duration:4.203962
+[2025-01-26T06:40:46.062+0000] {logging_mixin.py:190} INFO - Task:<Task(PostgresOperator): create_table> dag:<DAG: fetch_and_store_ebooks> dagrun:<DagRun fetch_and_store_ebooks @ 2025-01-12 00:00:00+00:00: scheduled__2025-01-12T00:00:00+00:00, state:running, queued_at: 2025-01-26 06:33:35.785346+00:00. externally triggered: False>
+[2025-01-26T06:40:46.067+0000] {logging_mixin.py:190} INFO - Failure caused by permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+[2025-01-26T06:40:46.072+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=fetch_and_store_ebooks, task_id=create_table, run_id=scheduled__2025-01-12T00:00:00+00:00, execution_date=20250112T000000, start_date=20250126T064041, end_date=20250126T064046
+[2025-01-26T06:40:46.178+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T06:40:46.195+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 585 for task create_table (permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+; 658)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3159, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3183, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.InsufficientPrivilege: permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+
+[2025-01-26T06:40:46.290+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-01-26T06:40:46.478+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T06:40:46.510+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T07:28:16.859+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T07:28:16.995+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-26T07:28:17.051+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-26T07:28:17.056+0000] {taskinstance.py:2866} INFO - Starting attempt 2 of 2
+[2025-01-26T07:28:18.792+0000] {taskinstance.py:2889} INFO - Executing <Task(PostgresOperator): create_table> on 2025-01-12 00:00:00+00:00
+[2025-01-26T07:28:18.863+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1425) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T07:28:18.872+0000] {standard_task_runner.py:72} INFO - Started process 1467 to run task
+[2025-01-26T07:28:18.887+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'create_table', 'scheduled__2025-01-12T00:00:00+00:00', '--job-id', '662', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpnleuyj1g']
+[2025-01-26T07:28:18.908+0000] {standard_task_runner.py:105} INFO - Job 662: Subtask create_table
+[2025-01-26T07:28:19.335+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T07:28:20.517+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='create_table' AIRFLOW_CTX_EXECUTION_DATE='2025-01-12T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-12T00:00:00+00:00'
+[2025-01-26T07:28:20.533+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T07:28:20.551+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T07:28:20.553+0000] {logging_mixin.py:190} INFO - Current task name:create_table state:running start_date:2025-01-26 07:28:17.008832+00:00
+[2025-01-26T07:28:20.555+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T07:28:20.569+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T07:28:20.571+0000] {sql.py:278} INFO - Executing: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    
+[2025-01-26T07:28:20.715+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T07:28:20.776+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T07:28:21.092+0000] {sql.py:553} INFO - Running statement: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    , parameters: None
+[2025-01-26T07:28:21.119+0000] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.InsufficientPrivilege: permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+
+[2025-01-26T07:28:21.184+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-01-26T07:28:21.186+0000] {logging_mixin.py:190} INFO - Task start:2025-01-26 07:28:17.008832+00:00 end:2025-01-26 07:28:21.182582+00:00 duration:4.17375
+[2025-01-26T07:28:21.189+0000] {logging_mixin.py:190} INFO - Task:<Task(PostgresOperator): create_table> dag:<DAG: fetch_and_store_ebooks> dagrun:<DagRun fetch_and_store_ebooks @ 2025-01-12 00:00:00+00:00: scheduled__2025-01-12T00:00:00+00:00, state:running, queued_at: 2025-01-26 07:21:35.768446+00:00. externally triggered: False>
+[2025-01-26T07:28:21.191+0000] {logging_mixin.py:190} INFO - Failure caused by permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+[2025-01-26T07:28:21.193+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=fetch_and_store_ebooks, task_id=create_table, run_id=scheduled__2025-01-12T00:00:00+00:00, execution_date=20250112T000000, start_date=20250126T072817, end_date=20250126T072821
+[2025-01-26T07:28:21.266+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T07:28:21.269+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 662 for task create_table (permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+; 1467)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3159, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3183, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.InsufficientPrivilege: permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+
+[2025-01-26T07:28:21.380+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-01-26T07:28:21.499+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T07:28:21.518+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T07:53:41.285+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T07:53:41.532+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-26T07:53:41.626+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-26T07:53:41.641+0000] {taskinstance.py:2866} INFO - Starting attempt 2 of 2
+[2025-01-26T07:53:41.742+0000] {taskinstance.py:2889} INFO - Executing <Task(PostgresOperator): create_table> on 2025-01-12 00:00:00+00:00
+[2025-01-26T07:53:41.798+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2096) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T07:53:41.807+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'create_table', 'scheduled__2025-01-12T00:00:00+00:00', '--job-id', '751', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpqboxjcky']
+[2025-01-26T07:53:41.831+0000] {standard_task_runner.py:72} INFO - Started process 2130 to run task
+[2025-01-26T07:53:41.840+0000] {standard_task_runner.py:105} INFO - Job 751: Subtask create_table
+[2025-01-26T07:53:42.443+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T07:53:43.295+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='create_table' AIRFLOW_CTX_EXECUTION_DATE='2025-01-12T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-12T00:00:00+00:00'
+[2025-01-26T07:53:43.306+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T07:53:43.321+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T07:53:43.323+0000] {logging_mixin.py:190} INFO - Current task name:create_table state:running start_date:2025-01-26 07:53:41.541262+00:00
+[2025-01-26T07:53:43.324+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T07:53:43.329+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T07:53:43.332+0000] {sql.py:278} INFO - Executing: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    
+[2025-01-26T07:53:43.393+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T07:53:43.457+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T07:53:43.669+0000] {sql.py:553} INFO - Running statement: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    , parameters: None
+[2025-01-26T07:53:43.690+0000] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.InsufficientPrivilege: permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+
+[2025-01-26T07:53:43.812+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-01-26T07:53:43.877+0000] {logging_mixin.py:190} INFO - Task start:2025-01-26 07:53:41.541262+00:00 end:2025-01-26 07:53:43.810404+00:00 duration:2.269142
+[2025-01-26T07:53:43.879+0000] {logging_mixin.py:190} INFO - Task:<Task(PostgresOperator): create_table> dag:<DAG: fetch_and_store_ebooks> dagrun:<DagRun fetch_and_store_ebooks @ 2025-01-12 00:00:00+00:00: scheduled__2025-01-12T00:00:00+00:00, state:running, queued_at: 2025-01-26 07:46:57.036676+00:00. externally triggered: False>
+[2025-01-26T07:53:43.908+0000] {logging_mixin.py:190} INFO - Failure caused by permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+[2025-01-26T07:53:43.911+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=fetch_and_store_ebooks, task_id=create_table, run_id=scheduled__2025-01-12T00:00:00+00:00, execution_date=20250112T000000, start_date=20250126T075341, end_date=20250126T075343
+[2025-01-26T07:53:44.127+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T07:53:44.130+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 751 for task create_table (permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+; 2130)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3159, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3183, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.InsufficientPrivilege: permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+
+[2025-01-26T07:53:44.317+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-01-26T07:53:44.450+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T07:53:44.523+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T09:12:01.293+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T09:12:01.474+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-26T09:12:01.544+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [queued]>
+[2025-01-26T09:12:01.549+0000] {taskinstance.py:2866} INFO - Starting attempt 2 of 2
+[2025-01-26T09:12:01.657+0000] {taskinstance.py:2889} INFO - Executing <Task(PostgresOperator): create_table> on 2025-01-12 00:00:00+00:00
+[2025-01-26T09:12:01.687+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3826) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T09:12:01.704+0000] {standard_task_runner.py:72} INFO - Started process 3846 to run task
+[2025-01-26T09:12:01.719+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'create_table', 'scheduled__2025-01-12T00:00:00+00:00', '--job-id', '978', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmp90gkzrld']
+[2025-01-26T09:12:01.739+0000] {standard_task_runner.py:105} INFO - Job 978: Subtask create_table
+[2025-01-26T09:12:02.131+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.create_table scheduled__2025-01-12T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T09:12:02.635+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='create_table' AIRFLOW_CTX_EXECUTION_DATE='2025-01-12T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-12T00:00:00+00:00'
+[2025-01-26T09:12:02.647+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T09:12:02.650+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T09:12:02.653+0000] {logging_mixin.py:190} INFO - Current task name:create_table state:running start_date:2025-01-26 09:12:01.500085+00:00
+[2025-01-26T09:12:02.655+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T09:12:02.658+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T09:12:02.664+0000] {sql.py:278} INFO - Executing: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    
+[2025-01-26T09:12:02.753+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T09:12:02.855+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T09:12:03.145+0000] {sql.py:553} INFO - Running statement: 
+    CREATE TABLE IF NOT EXISTS ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    , parameters: None
+[2025-01-26T09:12:03.171+0000] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.InsufficientPrivilege: permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+
+[2025-01-26T09:12:03.225+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-01-26T09:12:03.234+0000] {logging_mixin.py:190} INFO - Task start:2025-01-26 09:12:01.500085+00:00 end:2025-01-26 09:12:03.221825+00:00 duration:1.72174
+[2025-01-26T09:12:03.237+0000] {logging_mixin.py:190} INFO - Task:<Task(PostgresOperator): create_table> dag:<DAG: fetch_and_store_ebooks> dagrun:<DagRun fetch_and_store_ebooks @ 2025-01-12 00:00:00+00:00: scheduled__2025-01-12T00:00:00+00:00, state:running, queued_at: 2025-01-26 09:05:00.276058+00:00. externally triggered: False>
+[2025-01-26T09:12:03.242+0000] {logging_mixin.py:190} INFO - Failure caused by permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+[2025-01-26T09:12:03.256+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=fetch_and_store_ebooks, task_id=create_table, run_id=scheduled__2025-01-12T00:00:00+00:00, execution_date=20250112T000000, start_date=20250126T091201, end_date=20250126T091203
+[2025-01-26T09:12:03.369+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T09:12:03.389+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 978 for task create_table (permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+; 3846)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3159, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3183, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.InsufficientPrivilege: permission denied for schema public
+LINE 2:     CREATE TABLE IF NOT EXISTS ebooks (
+                                       ^
+
+[2025-01-26T09:12:03.487+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-01-26T09:12:03.725+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T09:12:03.762+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
