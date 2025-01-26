@@ -1,0 +1,375 @@
+[2025-01-25T16:04:35.585+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-25T16:04:35.711+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-25T16:04:35.785+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-25T16:04:35.790+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-25T16:04:35.929+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-25T16:04:35.997+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2847) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-25T16:04:36.006+0000] {standard_task_runner.py:72} INFO - Started process 2861 to run task
+[2025-01-25T16:04:36.008+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '384', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpi7dz3oog']
+[2025-01-25T16:04:36.016+0000] {standard_task_runner.py:105} INFO - Job 384: Subtask fetch_ebook_data
+[2025-01-25T16:04:36.284+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 50ab235b552a
+[2025-01-25T16:04:36.999+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-25T16:04:37.014+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-25T16:04:37.016+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-25T16:04:37.018+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-25 16:04:35.715511+00:00
+[2025-01-25T16:04:37.022+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-25T16:04:37.025+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-25T16:04:45.858+0000] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/app.py", line 42, in get_ebook_data
+    df.drop_duplicates(subset="Title", inplace=True)
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/frame.py", line 6566, in drop_duplicates
+    result = self[-self.duplicated(subset, keep=keep)]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/frame.py", line 6698, in duplicated
+    raise KeyError(Index(diff))
+KeyError: Index(['Title'], dtype='object')
+[2025-01-25T16:04:45.932+0000] {logging_mixin.py:190} INFO - Task instance in failure state
+[2025-01-25T16:04:45.934+0000] {logging_mixin.py:190} INFO - Task start:2025-01-25 16:04:35.715511+00:00 end:2025-01-25 16:04:45.930270+00:00 duration:10.214759
+[2025-01-25T16:04:45.937+0000] {logging_mixin.py:190} INFO - Task:<Task(PythonOperator): fetch_ebook_data> dag:<DAG: fetch_and_store_ebooks> dagrun:<DagRun fetch_and_store_ebooks @ 2025-01-02 00:00:00+00:00: scheduled__2025-01-02T00:00:00+00:00, state:running, queued_at: 2025-01-25 16:04:19.167962+00:00. externally triggered: False>
+[2025-01-25T16:04:45.939+0000] {logging_mixin.py:190} INFO - Failure caused by Index(['Title'], dtype='object')
+[2025-01-25T16:04:45.942+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250125T160435, end_date=20250125T160445
+[2025-01-25T16:04:46.397+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-25T16:04:46.399+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 384 for task fetch_ebook_data (Index(['Title'], dtype='object'); 2861)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3005, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3159, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3183, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/app.py", line 42, in get_ebook_data
+    df.drop_duplicates(subset="Title", inplace=True)
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/frame.py", line 6566, in drop_duplicates
+    result = self[-self.duplicated(subset, keep=keep)]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/frame.py", line 6698, in duplicated
+    raise KeyError(Index(diff))
+KeyError: Index(['Title'], dtype='object')
+[2025-01-25T16:04:46.485+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-01-25T16:04:46.556+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-01-25T16:04:46.561+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-25T17:02:27.012+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-25T17:02:27.427+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-25T17:02:27.563+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-25T17:02:27.574+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-25T17:02:28.156+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-25T17:02:28.216+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3693) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-25T17:02:28.272+0000] {standard_task_runner.py:72} INFO - Started process 3731 to run task
+[2025-01-25T17:02:28.294+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '443', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmp31kkkpzb']
+[2025-01-25T17:02:28.324+0000] {standard_task_runner.py:105} INFO - Job 443: Subtask fetch_ebook_data
+[2025-01-25T17:02:34.090+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 50ab235b552a
+[2025-01-25T17:02:34.978+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-25T17:02:34.983+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-25T17:02:34.986+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-25T17:02:34.989+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-25 17:02:27.431098+00:00
+[2025-01-25T17:02:35.003+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-25T17:02:35.005+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-25T17:03:17.506+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-25T17:03:17.779+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-25T17:03:17.795+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250125T170227, end_date=20250125T170317
+[2025-01-25T17:03:18.266+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-25T17:03:18.286+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-25T17:03:18.288+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-25 17:02:00.125869+00:00
+[2025-01-25T17:03:18.290+0000] {logging_mixin.py:190} INFO - Task hostname:50ab235b552a operator:PythonOperator
+[2025-01-25T17:03:18.427+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-25T17:03:18.435+0000] {standard_task_runner.py:217} INFO - Process not found (most likely exited), stop collecting metrics
+[2025-01-25T17:03:18.761+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-25T17:03:18.791+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T06:33:52.860+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T06:33:53.062+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T06:33:53.134+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T06:33:53.137+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T06:33:55.059+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-26T06:33:55.378+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=370) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T06:33:55.446+0000] {standard_task_runner.py:72} INFO - Started process 400 to run task
+[2025-01-26T06:33:55.525+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '533', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmp9brwzd8m']
+[2025-01-26T06:33:55.653+0000] {standard_task_runner.py:105} INFO - Job 533: Subtask fetch_ebook_data
+[2025-01-26T06:33:56.720+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T06:33:58.274+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-26T06:33:58.295+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T06:33:58.302+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T06:33:58.319+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-26 06:33:53.064662+00:00
+[2025-01-26T06:33:58.322+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T06:33:58.340+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T06:34:12.978+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T06:34:13.067+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T06:34:13.076+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250126T063353, end_date=20250126T063413
+[2025-01-26T06:34:13.327+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T06:34:13.389+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T06:34:13.429+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 06:33:28.991870+00:00
+[2025-01-26T06:34:13.439+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T06:34:13.549+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T06:34:14.062+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T06:34:14.076+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T07:21:49.659+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T07:21:49.981+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T07:21:50.099+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T07:21:50.108+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T07:21:52.397+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-26T07:21:52.499+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1206) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T07:21:52.528+0000] {standard_task_runner.py:72} INFO - Started process 1245 to run task
+[2025-01-26T07:21:52.534+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '618', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpgqrhk5ud']
+[2025-01-26T07:21:52.558+0000] {standard_task_runner.py:105} INFO - Job 618: Subtask fetch_ebook_data
+[2025-01-26T07:21:53.059+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T07:21:54.190+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-26T07:21:54.196+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T07:21:54.200+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T07:21:54.219+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-26 07:21:49.987775+00:00
+[2025-01-26T07:21:54.222+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T07:21:54.224+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T07:22:03.907+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T07:22:04.029+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T07:22:04.036+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250126T072149, end_date=20250126T072204
+[2025-01-26T07:22:04.463+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T07:22:04.466+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T07:22:04.474+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 07:21:27.584240+00:00
+[2025-01-26T07:22:04.490+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T07:22:04.651+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T07:22:04.881+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T07:22:04.900+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T07:47:19.449+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T07:47:19.878+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T07:47:20.061+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T07:47:20.063+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T07:47:20.267+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-26T07:47:20.335+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1879) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T07:47:20.343+0000] {standard_task_runner.py:72} INFO - Started process 1918 to run task
+[2025-01-26T07:47:20.436+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '712', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpnsl43s2y']
+[2025-01-26T07:47:20.485+0000] {standard_task_runner.py:105} INFO - Job 712: Subtask fetch_ebook_data
+[2025-01-26T07:47:21.386+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T07:47:22.736+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-26T07:47:22.743+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T07:47:22.757+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T07:47:22.761+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-26 07:47:19.894904+00:00
+[2025-01-26T07:47:22.764+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T07:47:22.774+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T07:47:31.866+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T07:47:31.986+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T07:47:32.003+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250126T074719, end_date=20250126T074732
+[2025-01-26T07:47:32.626+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T07:47:32.678+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T07:47:32.685+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 07:46:48.859807+00:00
+[2025-01-26T07:47:32.705+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T07:47:32.844+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T07:47:33.103+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T07:47:33.125+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T08:51:23.026+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T08:51:23.156+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T08:51:23.300+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T08:51:23.302+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T08:51:23.480+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-26T08:51:23.536+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3185) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T08:51:23.569+0000] {standard_task_runner.py:72} INFO - Started process 3219 to run task
+[2025-01-26T08:51:23.594+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '872', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpuz839x2_']
+[2025-01-26T08:51:23.603+0000] {standard_task_runner.py:105} INFO - Job 872: Subtask fetch_ebook_data
+[2025-01-26T08:51:24.418+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T08:51:25.077+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-26T08:51:25.094+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T08:51:25.109+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T08:51:25.114+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-26 08:51:23.169309+00:00
+[2025-01-26T08:51:25.119+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T08:51:25.122+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T08:51:35.988+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T08:51:36.074+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T08:51:36.096+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250126T085123, end_date=20250126T085136
+[2025-01-26T08:51:36.607+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T08:51:36.622+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T08:51:36.629+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 08:50:51.168346+00:00
+[2025-01-26T08:51:36.640+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T08:51:36.749+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T08:51:36.940+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T08:58:09.274+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T08:58:09.697+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T08:58:09.869+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T08:58:09.879+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T08:58:11.638+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-26T08:58:11.704+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3387) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T08:58:11.738+0000] {standard_task_runner.py:72} INFO - Started process 3427 to run task
+[2025-01-26T08:58:11.739+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '903', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmp0eccg4kd']
+[2025-01-26T08:58:11.806+0000] {standard_task_runner.py:105} INFO - Job 903: Subtask fetch_ebook_data
+[2025-01-26T08:58:12.336+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T08:58:14.856+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-26T08:58:15.135+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T08:58:15.150+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T08:58:15.164+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-26 08:58:09.700630+00:00
+[2025-01-26T08:58:15.295+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T08:58:15.297+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T08:58:28.055+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T08:58:28.166+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T08:58:28.177+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250126T085809, end_date=20250126T085828
+[2025-01-26T08:58:28.394+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T08:58:28.398+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T08:58:28.410+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 08:57:44.404093+00:00
+[2025-01-26T08:58:28.416+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T08:58:28.590+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T08:58:29.099+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T08:58:29.204+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T09:05:23.738+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T09:05:23.889+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T09:05:24.005+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T09:05:24.014+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T09:05:24.287+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-26T09:05:24.498+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T09:05:24.628+0000] {standard_task_runner.py:72} INFO - Started process 3626 to run task
+[2025-01-26T09:05:24.661+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '935', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpmu6x4fyf']
+[2025-01-26T09:05:24.679+0000] {standard_task_runner.py:105} INFO - Job 935: Subtask fetch_ebook_data
+[2025-01-26T09:05:25.235+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T09:05:26.070+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-26T09:05:26.085+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T09:05:26.096+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T09:05:26.100+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-26 09:05:23.914095+00:00
+[2025-01-26T09:05:26.103+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T09:05:26.115+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T09:05:36.492+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T09:05:36.646+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T09:05:36.676+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250126T090523, end_date=20250126T090536
+[2025-01-26T09:05:37.900+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T09:05:37.913+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T09:05:37.951+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 09:04:51.553939+00:00
+[2025-01-26T09:05:37.968+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T09:05:38.273+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T09:05:39.549+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T09:05:39.597+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T09:05:39.685+0000] {standard_task_runner.py:217} INFO - Process not found (most likely exited), stop collecting metrics
+[2025-01-26T09:16:09.730+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T09:16:09.877+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T09:16:09.965+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T09:16:09.985+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T09:16:10.174+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-26T09:16:10.231+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3998) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T09:16:10.255+0000] {standard_task_runner.py:72} INFO - Started process 4030 to run task
+[2025-01-26T09:16:10.244+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '1003', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmp6ypfbwg1']
+[2025-01-26T09:16:10.270+0000] {standard_task_runner.py:105} INFO - Job 1003: Subtask fetch_ebook_data
+[2025-01-26T09:16:10.718+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T09:16:11.803+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-26T09:16:11.812+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T09:16:11.817+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T09:16:11.819+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-26 09:16:09.880703+00:00
+[2025-01-26T09:16:11.821+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T09:16:11.823+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T09:16:23.248+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T09:16:23.379+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T09:16:23.391+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250126T091609, end_date=20250126T091623
+[2025-01-26T09:16:24.463+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T09:16:24.514+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T09:16:24.530+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 09:15:42.871490+00:00
+[2025-01-26T09:16:24.543+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T09:16:24.642+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T09:16:25.245+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T09:16:25.289+0000] {standard_task_runner.py:217} INFO - Process not found (most likely exited), stop collecting metrics
+[2025-01-26T09:16:25.293+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-01-26T09:26:44.339+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T09:26:44.780+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T09:26:45.050+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [queued]>
+[2025-01-26T09:26:45.072+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T09:26:45.565+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): fetch_ebook_data> on 2025-01-02 00:00:00+00:00
+[2025-01-26T09:26:45.669+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4309) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T09:26:45.720+0000] {standard_task_runner.py:72} INFO - Started process 4349 to run task
+[2025-01-26T09:26:45.707+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'fetch_ebook_data', 'scheduled__2025-01-02T00:00:00+00:00', '--job-id', '1056', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmpc9gqpz5i']
+[2025-01-26T09:26:45.736+0000] {standard_task_runner.py:105} INFO - Job 1056: Subtask fetch_ebook_data
+[2025-01-26T09:26:46.517+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.fetch_ebook_data scheduled__2025-01-02T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T09:26:48.158+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='fetch_ebook_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-02T00:00:00+00:00'
+[2025-01-26T09:26:48.166+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T09:26:48.186+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T09:26:48.194+0000] {logging_mixin.py:190} INFO - Current task name:fetch_ebook_data state:running start_date:2025-01-26 09:26:44.814572+00:00
+[2025-01-26T09:26:48.204+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T09:26:48.214+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T09:26:57.486+0000] {python.py:240} INFO - Done. Returned value was: None
+[2025-01-26T09:26:57.595+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T09:26:57.601+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=fetch_ebook_data, run_id=scheduled__2025-01-02T00:00:00+00:00, execution_date=20250102T000000, start_date=20250126T092644, end_date=20250126T092657
+[2025-01-26T09:26:57.882+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T09:26:57.891+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T09:26:57.894+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 09:26:14.800771+00:00
+[2025-01-26T09:26:57.896+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PythonOperator
+[2025-01-26T09:26:58.072+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T09:26:58.346+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T09:26:58.358+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

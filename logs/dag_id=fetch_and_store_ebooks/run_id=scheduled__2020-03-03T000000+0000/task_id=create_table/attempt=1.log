@@ -1,0 +1,45 @@
+[2025-01-26T10:03:27.192+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-01-26T10:03:27.691+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2020-03-03T00:00:00+00:00 [queued]>
+[2025-01-26T10:03:27.959+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: fetch_and_store_ebooks.create_table scheduled__2020-03-03T00:00:00+00:00 [queued]>
+[2025-01-26T10:03:27.968+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-01-26T10:03:28.288+0000] {taskinstance.py:2889} INFO - Executing <Task(PostgresOperator): create_table> on 2020-03-03 00:00:00+00:00
+[2025-01-26T10:03:28.457+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'fetch_and_store_ebooks', 'create_table', 'scheduled__2020-03-03T00:00:00+00:00', '--job-id', '1320', '--raw', '--subdir', 'DAGS_FOLDER/app.py', '--cfg-path', '/tmp/tmp46_xgrbp']
+[2025-01-26T10:03:28.412+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5692) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-01-26T10:03:28.518+0000] {standard_task_runner.py:72} INFO - Started process 5752 to run task
+[2025-01-26T10:03:28.503+0000] {standard_task_runner.py:105} INFO - Job 1320: Subtask create_table
+[2025-01-26T10:03:29.465+0000] {task_command.py:467} INFO - Running <TaskInstance: fetch_and_store_ebooks.create_table scheduled__2020-03-03T00:00:00+00:00 [running]> on host 34edd304782d
+[2025-01-26T10:03:31.517+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='fetch_and_store_ebooks' AIRFLOW_CTX_TASK_ID='create_table' AIRFLOW_CTX_EXECUTION_DATE='2020-03-03T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-03-03T00:00:00+00:00'
+[2025-01-26T10:03:31.565+0000] {logging_mixin.py:190} INFO - Task instance is in running state
+[2025-01-26T10:03:31.577+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: queued
+[2025-01-26T10:03:31.593+0000] {logging_mixin.py:190} INFO - Current task name:create_table state:running start_date:2025-01-26 10:03:27.725399+00:00
+[2025-01-26T10:03:31.609+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks and current dag run status:running
+[2025-01-26T10:03:31.622+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-01-26T10:03:31.641+0000] {sql.py:278} INFO - Executing: 
+    CREATE TABLE IF NOT EXISTS public.ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    
+[2025-01-26T10:03:31.763+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T10:03:31.910+0000] {base.py:84} INFO - Retrieving connection 'ebooks_connection'
+[2025-01-26T10:03:32.917+0000] {sql.py:553} INFO - Running statement: 
+    CREATE TABLE IF NOT EXISTS public.ebooks (
+        id SERIAL PRIMARY KEY,
+        judul TEXT NOT NULL,
+        penulis TEXT,
+        link TEXT
+    );
+    , parameters: None
+[2025-01-26T10:03:33.249+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-01-26T10:03:33.295+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=fetch_and_store_ebooks, task_id=create_table, run_id=scheduled__2020-03-03T00:00:00+00:00, execution_date=20200303T000000, start_date=20250126T100327, end_date=20250126T100333
+[2025-01-26T10:03:34.539+0000] {logging_mixin.py:190} INFO - Task instance in success state
+[2025-01-26T10:03:34.547+0000] {logging_mixin.py:190} INFO -  Previous state of the Task instance: running
+[2025-01-26T10:03:34.549+0000] {logging_mixin.py:190} INFO - Dag name:fetch_and_store_ebooks queued_at:2025-01-26 10:01:12.750723+00:00
+[2025-01-26T10:03:34.551+0000] {logging_mixin.py:190} INFO - Task hostname:34edd304782d operator:PostgresOperator
+[2025-01-26T10:03:34.736+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-01-26T10:03:34.952+0000] {taskinstance.py:3895} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-01-26T10:03:35.007+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
