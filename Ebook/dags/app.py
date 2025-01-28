@@ -14,6 +14,7 @@ import requests
 def get_ebook_data(jumlah_buku, ti):
     base_url = 'https://ebook.twointomedia.com/page/'
     ebooks = []
+    telah_dilihat = set()
     page_num = 1
     
     while len(ebooks) < jumlah_buku:
@@ -26,14 +27,18 @@ def get_ebook_data(jumlah_buku, ti):
             link = buku.find('a', href = True)
         
             if judul and penulis and link:
-                ebooks.append({
+                judul_ebook = judul.text.strip()
+                
+                if judul_ebook in telah_dilihat:
+                    telah_dilihat.add(judul_ebook)
+                    ebooks.append({
                     'Judul': judul.text.strip(),
                     'Penulis': penulis.text.strip(),
                     'Link': link['href']
                 })
         
         page_num += 1
-    
+
     # 2) TRANSFORM 
            
     ebooks = ebooks[:jumlah_buku]
