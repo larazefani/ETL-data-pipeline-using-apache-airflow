@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 import requests
 
 # 1) EXTRACT
-
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
     "Accept-Language": "en-US,en;q=0.9",
@@ -20,9 +19,8 @@ def get_ebook_data(num_books, task_instance):
     ebooks = []
     seen_titles = set()
     page_num = 1
-    max_pages = 100  # Batasi maksimal 10 halaman
     
-    while len(ebooks) < num_books and page_num <= max_pages:
+    while len(ebooks) < num_books:
         try:
             html_text = requests.get(base_url + str(page_num), headers=headers).text
         except requests.exceptions.RequestException as e:
@@ -31,6 +29,10 @@ def get_ebook_data(num_books, task_instance):
         
         soup = BeautifulSoup(html_text, 'lxml')
         container = soup.find_all('div', class_='smallcard')
+        if not container:
+            print(f"Tidak ada data di halaman {page_num}. Menghentikan proses.")
+            break
+        
         for buku in container:
             judul = buku.find('h2', class_='entry-title-mini')
             penulis = buku.find('div', class_='entry-author')
@@ -45,18 +47,20 @@ def get_ebook_data(num_books, task_instance):
                         'Link': link['href']
                     })
                     seen_titles.add(judul_ebook)
+                    
+                    if len(ebooks) >= num_books:
+                        break
         
         page_num += 1
 
     # 2) TRANSFORM 
-    ebooks = ebooks[:num_books]
     df = pd.DataFrame(ebooks)
     df.drop_duplicates(subset="Judul", inplace=True)
+    df = df.head(num_books)
     
     task_instance.xcom_push(key='ebook_data', value=df.to_dict('records'))
 
 # 3) LOAD
-
 def insert_ebook_data_into_postgres(task_instance):
     ebook_data = task_instance.xcom_pull(key='ebook_data', task_ids='fetch_ebook_data')
     if not ebook_data:
@@ -64,6 +68,7 @@ def insert_ebook_data_into_postgres(task_instance):
         return
     
     postgres_hook = PostgresHook(postgres_conn_id='ebooks_connection')
+    
     insert_query = """
     INSERT INTO ebooks (judul, penulis, link)
     VALUES (%s, %s, %s)
@@ -71,9 +76,10 @@ def insert_ebook_data_into_postgres(task_instance):
     check_query = """
     SELECT judul FROM ebooks WHERE judul = %s;
     """
+    
     for ebook in ebook_data:
         existing = postgres_hook.get_records(check_query, parameters=(ebook['Judul'],))
-        if not existing:
+        if not existing or len(existing) == 0:
             postgres_hook.run(insert_query, parameters=(ebook['Judul'], ebook['Penulis'], ebook['Link']))
 
 default_args = {
@@ -85,16 +91,19 @@ default_args = {
 }
 
 dag = DAG(
-    'fetch_and_store_ebooks',
+    'ebook_scraping_pipeline',
     default_args=default_args,
-    description='A simple DAG to fetch ebook data from ebook.twointomedia.com and store it in Postgres',
-    schedule_interval=timedelta(days=1),
+    description='Pipeline untuk scraping data ebook dan menyimpan ke PostgreSQL',
+    schedule_interval=timedelta(days=7), 
+    catchup=False,
+    max_active_runs=1,
+    tags=['ebooks'],
 )
 
 fetch_ebook_data_task = PythonOperator(
     task_id='fetch_ebook_data',
     python_callable=get_ebook_data,
-    op_args=[50],  # Number of ebooks to fetch
+    op_kwargs={'num_books': 50}, 
     dag=dag,
 )
 
@@ -106,14 +115,14 @@ create_table_task = PostgresOperator(
         id SERIAL PRIMARY KEY,
         judul TEXT NOT NULL,
         penulis TEXT,
-        link TEXT
+        link TEXT UNIQUE
     );
     """,
     dag=dag,
 )
 
 insert_ebook_data_task = PythonOperator(
-    task_id='insert_ebook_data',
+    task_id='insert_into_postgres',
     python_callable=insert_ebook_data_into_postgres,
     dag=dag,
 )
