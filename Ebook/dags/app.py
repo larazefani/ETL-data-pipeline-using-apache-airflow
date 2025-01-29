@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 import pandas as pd
+import json
 from airflow.operators.python import PythonOperator
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook 
@@ -17,15 +18,21 @@ headers = {
 def get_ebook_data(task_instance):
     base_url = 'https://ebook.twointomedia.com/page/'
     ebooks = []
-    seen_titles = set()
+    seen_links = set()
     page_num = 1
+    max_page = 1500
+    failed_attempts = 0
+    max_failures = 5  # Hentikan jika gagal lebih dari 5 kali berturut-turut
     
-    while True:
+    while page_num <= max_page and failed_attempts < max_failures:
         try:
-            html_text = requests.get(base_url + str(page_num), headers=headers).text
+            response = requests.get(base_url + str(page_num), headers=headers)
+            response.raise_for_status()  # Memastikan request sukses
+            html_text = response.text
         except requests.exceptions.RequestException as e:
             print(f"Gagal mengambil data dari halaman {page_num}: {e}")
-            break
+            failed_attempts += 1
+            continue  # Lewati halaman ini, coba halaman berikutnya
         
         soup = BeautifulSoup(html_text, 'lxml')
         container = soup.find_all('div', class_='smallcard')
@@ -39,26 +46,30 @@ def get_ebook_data(task_instance):
             link = buku.find('a', href=True)
         
             if judul and penulis and link:
-                judul_ebook = judul.text.strip()
-                if judul_ebook not in seen_titles:
+                ebook_link = link['href']
+                if ebook_link not in seen_links:
                     ebooks.append({
                         'Judul': judul.text.strip(),
                         'Penulis': penulis.text.strip(),
-                        'Link': link['href']
+                        'Link': ebook_link
                     })
-                    seen_titles.add(judul_ebook)
+                    seen_links.add(ebook_link)
         
         page_num += 1
+        failed_attempts = 0  # Reset jika sukses
+        
+    if page_num > max_page:
+        print(f"Berhenti karena mencapai batas maksimal halaman ({max_page})")
 
-    # 2) TRANSFORM 
+# 2) TRANSFORM        
     df = pd.DataFrame(ebooks)
-    df.drop_duplicates(subset="Judul", inplace=True)
+    df.drop_duplicates(subset="Link", inplace=True)
     
-    task_instance.xcom_push(key='ebook_data', value=df.to_dict('records'))
+    task_instance.xcom_push(key='ebook_data', value=json.dumps(df.to_dict('records')))
 
 # 3) LOAD
 def insert_ebook_data_into_postgres(task_instance):
-    ebook_data = task_instance.xcom_pull(key='ebook_data', task_ids='fetch_ebook_data')
+    ebook_data = json.loads(task_instance.xcom_pull(key='ebook_data', task_ids='fetch_ebook_data'))
     if not ebook_data:
         print("Peringatan: Data ebook kosong. Tidak ada data yang akan dimasukkan.")
         return
@@ -70,14 +81,15 @@ def insert_ebook_data_into_postgres(task_instance):
     VALUES (%s, %s, %s)
     """
     check_query = """
-    SELECT judul FROM ebooks WHERE judul = %s;
+    SELECT link FROM ebooks WHERE link = %s;
     """
     
     for ebook in ebook_data:
-        existing = postgres_hook.get_records(check_query, parameters=(ebook['Judul'],))
-        if not existing or len(existing) == 0:
+        existing = postgres_hook.get_records(check_query, parameters=(ebook['Link'],))
+        if not existing:
             postgres_hook.run(insert_query, parameters=(ebook['Judul'], ebook['Penulis'], ebook['Link']))
 
+# 4) DAG Definition
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
