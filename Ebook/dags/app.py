@@ -1,5 +1,3 @@
-# Requirements
-
 from datetime import datetime, timedelta
 from airflow import DAG
 import pandas as pd
@@ -10,63 +8,78 @@ from bs4 import BeautifulSoup
 import requests
 
 # 1) EXTRACT
-        
-def get_ebook_data(jumlah_buku, ti):
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://ebook.twointomedia.com/",
+}
+
+def get_ebook_data(num_books, task_instance):
     base_url = 'https://ebook.twointomedia.com/page/'
     ebooks = []
-    telah_dilihat = set()
+    seen_titles = set()
     page_num = 1
+    max_pages = 100  # Batasi maksimal 10 halaman
     
-    while len(ebooks) < jumlah_buku:
-        html_text = requests.get(base_url + str(page_num)).text
+    while len(ebooks) < num_books and page_num <= max_pages:
+        try:
+            html_text = requests.get(base_url + str(page_num), headers=headers).text
+        except requests.exceptions.RequestException as e:
+            print(f"Gagal mengambil data dari halaman {page_num}: {e}")
+            break
+        
         soup = BeautifulSoup(html_text, 'lxml')
         container = soup.find_all('div', class_='smallcard')
         for buku in container:
             judul = buku.find('h2', class_='entry-title-mini')
             penulis = buku.find('div', class_='entry-author')
-            link = buku.find('a', href = True)
+            link = buku.find('a', href=True)
         
             if judul and penulis and link:
                 judul_ebook = judul.text.strip()
-                
-                if judul_ebook in telah_dilihat:
-                    telah_dilihat.add(judul_ebook)
+                if judul_ebook not in seen_titles:
                     ebooks.append({
-                    'Judul': judul.text.strip(),
-                    'Penulis': penulis.text.strip(),
-                    'Link': link['href']
-                })
+                        'Judul': judul.text.strip(),
+                        'Penulis': penulis.text.strip(),
+                        'Link': link['href']
+                    })
+                    seen_titles.add(judul_ebook)
         
         page_num += 1
 
     # 2) TRANSFORM 
-           
-    ebooks = ebooks[:jumlah_buku]
-    
+    ebooks = ebooks[:num_books]
     df = pd.DataFrame(ebooks)
     df.drop_duplicates(subset="Judul", inplace=True)
     
-    ti.xcom_push(key='ebook_data', value=df.to_dict('records'))
+    task_instance.xcom_push(key='ebook_data', value=df.to_dict('records'))
 
 # 3) LOAD
 
-def insert_ebook_data_into_postgres(ti):
-    ebook_data = ti.xcom_pull(key='ebook_data', task_ids='fetch_ebook_data')
+def insert_ebook_data_into_postgres(task_instance):
+    ebook_data = task_instance.xcom_pull(key='ebook_data', task_ids='fetch_ebook_data')
     if not ebook_data:
-        raise ValueError("Data ebook tidak ditemukan")
+        print("Peringatan: Data ebook kosong. Tidak ada data yang akan dimasukkan.")
+        return
     
     postgres_hook = PostgresHook(postgres_conn_id='ebooks_connection')
     insert_query = """
     INSERT INTO ebooks (judul, penulis, link)
     VALUES (%s, %s, %s)
     """
+    check_query = """
+    SELECT judul FROM ebooks WHERE judul = %s;
+    """
     for ebook in ebook_data:
-        postgres_hook.run(insert_query, parameters=(ebook['Judul'], ebook['Penulis'], ebook['Link']))
+        existing = postgres_hook.get_records(check_query, parameters=(ebook['Judul'],))
+        if not existing:
+            postgres_hook.run(insert_query, parameters=(ebook['Judul'], ebook['Penulis'], ebook['Link']))
 
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2020, 1, 1),
+    'start_date': datetime(2025, 1, 1),
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
 }
@@ -105,4 +118,4 @@ insert_ebook_data_task = PythonOperator(
     dag=dag,
 )
 
-fetch_ebook_data_task >> create_table_task >> insert_ebook_data_task
+create_table_task >> fetch_ebook_data_task >> insert_ebook_data_task
