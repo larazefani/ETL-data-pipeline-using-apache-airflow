@@ -14,13 +14,13 @@ headers = {
     "Referer": "https://ebook.twointomedia.com/",
 }
 
-def get_ebook_data(num_books, task_instance):
+def get_ebook_data(task_instance):
     base_url = 'https://ebook.twointomedia.com/page/'
     ebooks = []
     seen_titles = set()
     page_num = 1
     
-    while len(ebooks) < num_books:
+    while True:
         try:
             html_text = requests.get(base_url + str(page_num), headers=headers).text
         except requests.exceptions.RequestException as e:
@@ -47,16 +47,12 @@ def get_ebook_data(num_books, task_instance):
                         'Link': link['href']
                     })
                     seen_titles.add(judul_ebook)
-                    
-                    if len(ebooks) >= num_books:
-                        break
         
         page_num += 1
 
     # 2) TRANSFORM 
     df = pd.DataFrame(ebooks)
     df.drop_duplicates(subset="Judul", inplace=True)
-    df = df.head(num_books)
     
     task_instance.xcom_push(key='ebook_data', value=df.to_dict('records'))
 
@@ -103,7 +99,6 @@ dag = DAG(
 fetch_ebook_data_task = PythonOperator(
     task_id='fetch_ebook_data',
     python_callable=get_ebook_data,
-    op_kwargs={'num_books': 50}, 
     dag=dag,
 )
 
